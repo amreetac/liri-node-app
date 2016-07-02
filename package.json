@@ -1,0 +1,28 @@
+{
+  "name": "liribot",
+  "version": "1.0.0",
+  "description": "liri is a siri simulator",
+  "main": "liri.js",
+  "dependencies": {
+    "request": "^2.72.0",
+    "spotify": "^0.3.0",
+    "twitter": "^1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amreetac/liri-node-app.git"
+  },
+  "keywords": [
+    "liri"
+  ],
+  "author": "Amreeta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amreetac/liri-node-app/issues"
+  },
+  "homepage": "https://github.com/amreetac/liri-node-app#readme"
+}
