@@ -59,10 +59,11 @@ var client = new Twitter({
 var params = {screen_name: 'amreetac'};
 client.get('statuses/user_timeline', params, function(error, tweets, response){
   if (!error) {
-  	for(var i=0; i<tweets.length; i++) {
+  	for(var i=0; i<tweets.length && i < 20; i++) {
   		//console.log(tweets);
   		//console.log("------------");
-    	console.log("Created At:" + tweets[i].);
+    	console.log("Tweet" + (i + 1) + "Created At:" + tweets[i].created_at);
+    	console.log(tweets[i].text);
     	//console.log("------------");
   }
 }
