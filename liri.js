@@ -65,8 +65,28 @@ function liriBot() {
 		});
 	}
 
-	function spotifyThis(){
+	function spotifyThis(songName){
 
+		var spotify = require('spotify');
+
+		var song = songName.lenth ? songName.join('+'): "Whats+my+age+again";
+
+		spotify('https://api.spotify.com/v1/search?q=' + song + '&type=artist');
+ 
+		spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(error, data) {
+    	if (!error && 
+					response.statusCode == 200 &&
+					JSON.parse(body)["Response"] == "True") {
+					console.log("Artist: " + JSON.parse(body)["Artist"]);
+    	}
+				else if (!error && response.statusCode == 200) {
+					console.log(JSON.parse(body)["Error"]);
+				}
+				else {
+					console.log(error);
+				}
+ 
+});
 	}
 
 	// This function takes an array of words making the movie name
@@ -105,7 +125,23 @@ function liriBot() {
 	}
 
 	function doIt(){
+		// fs is an NPM package defined from above for reading and writing files 
 
+// This block of code will read from the "movies.txt" file.
+// It's important to include the "utf8" parameter or the code will provide stream data (garbage)
+// The code will store the contents of the reading inside the variable "data" 
+files.readFile("random.txt", "utf8", function(error, data) {
+
+    
+    // Then split it by commas (to make it more readable)
+    var dataArr = data.split(',');
+
+    for(var i = 0; i <dataArr.length; i++)
+    {
+    	console.log(dataArr[i]);
+    }
+    
+});
 	}
 
 	function usage(){
