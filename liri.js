@@ -89,7 +89,7 @@ files.readFile("random.txt", "utf8", function(error, data) {
 
 		var spotify = require('spotify');
 
-		var song = songName.length ? songName.join('+'): "Whats+my+age+again";
+		//var song = songName.length ? songName.join('+'): "Whats+my+age+again";
 
 		//spotify('https://api.spotify.com/v1/search?q=' + song + '&type=artist');
  
@@ -99,10 +99,11 @@ files.readFile("random.txt", "utf8", function(error, data) {
         return;
     }
  
-    console.log("Albums:" + JSON.stringify(data.tracks.items[0], null, 2));
-    console.log("Artists:" + JSON.stringify(data.tracks.items[1], null, 2));
-    console.log("Song Link:" + JSON.stringify(data.tracks.items[8], null, 2));
-    console.log("Song Name:" + JSON.stringify(data.tracks.items[10], null, 2));
+    console.log("Name:" + JSON.stringify(data.tracks.items[0].name, null, 2));
+    console.log("URL:" + JSON.stringify(data.tracks.items[0].uri, null, 2));
+    //console.log("Artists:" + JSON.stringify(data.tracks.items[1], null, 2));
+    //console.log("Song Link:" + JSON.stringify(data.tracks.items[8], null, 2));
+    //console.log("Song Name:" + JSON.stringify(data.tracks.items[10], null, 2));
 });
 	}
 
