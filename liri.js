@@ -3,34 +3,15 @@ function liriBot() {
 
 	var files = require('fs');
 
-	function doIt(){
-		// fs is an NPM package defined from above for reading and writing files 
-
-// This block of code will read from the "movies.txt" file.
-// It's important to include the "utf8" parameter or the code will provide stream data (garbage)
-// The code will store the contents of the reading inside the variable "data" 
-files.readFile("random.txt", "utf8", function(error, data) {
-
-    
-     //Then split it by commas (to make it more readable)
-    var dataArr = data.split(',');
-
-    for(var i = 0; i <dataArr.length; i++)
-    {
-    	console.log(dataArr[i]);
-    }
-    
-    dataArr = process.argv[2];
-});
-
-
-	}
-// Using splice method to appropriately include all cases for
-//input length
-
 //In part of a larger function, we have the switch case statement
 //along with the appropriate functions to be called for each case below. 
 
+// Using splice method to appropriately include all cases for
+//input length
+
+ liri(process.argv[2]);
+
+    function liri(args){
 	switch(process.argv[2]){
 		case "my-tweets":
 			if (process.argv.length != 3) {
@@ -55,6 +36,7 @@ files.readFile("random.txt", "utf8", function(error, data) {
 		default:
 			usage();
 	}
+}
 
 	function myTweets(){
 		var Twitter = require('twitter');
@@ -91,6 +73,8 @@ files.readFile("random.txt", "utf8", function(error, data) {
 
 		 var spotify = require('spotify');
 
+		 var printf = require('printf');  //Note: Download the printf package!!
+
         var song = songName.length ? songName.join('+'): "Whats+my+age+again";
 
         spotify.search({ type: 'track', query: song }, function(err, data) {
@@ -118,14 +102,17 @@ files.readFile("random.txt", "utf8", function(error, data) {
 				col4 = JSON.stringify(data.tracks.items[i].album.name, null, 2);
 				col5 = JSON.stringify(data.tracks.items[i].track_number, null, 2);
 
-				console.log(col1 + "\t" + col2 + "\t"+ col3 + "\t"+ col4 + "\t"+ col5 + "\t");
-				//console.log("Artists:" + JSON.stringify(data.tracks.items[1], null, 2));
-				//console.log("Song Link:" + JSON.stringify(data.tracks.items[8], null, 2));
-				//console.log("Song Name:" + JSON.stringify(data.tracks.items[10], null, 2));	
+				console.log(printf("%-25s %-40s %-40s %-30s\t    %-3d", //padding from printf package
+		// Maximize your command line to see the Artist, Song name, spotify link, album and track number the best
+					(col1.replace(/"/g, ' ')).substr(0,25), 
+					(col2.replace(/"/g, ' ')).substr(0,40), 
+					(col3.replace(/"/g, ' ')).substr(0,40), 
+					(col4.replace(/"/g, ' ')).substr(0,30), 
+					(col5.replace(/"/g, ' ')).substr(0,3)));
    			 }
-});
-	}
-
+		});
+    }
+    
 	// This function takes an array of words making the movie name
 	function movieThis(movieName){
 
@@ -160,6 +147,30 @@ files.readFile("random.txt", "utf8", function(error, data) {
 				}
 			});
 	}
+
+
+	function doIt(){
+		// fs is an NPM package defined from above for reading and writing files 
+
+		// This block of code will read from the "movies.txt" file.
+		// It's important to include the "utf8" parameter or the code will provide stream data (garbage)
+		// The code will store the contents of the reading inside the variable "data" 
+		files.readFile("random.txt", "utf8", function(error, data) {
+
+    
+     //Then split it by commas (to make it more readable)
+    var dataArr = data.split(',');
+
+    for(var i = 0; i <dataArr.length; i++)
+    {
+    	console.log(dataArr[i]);
+    }
+    
+       // dataArr = process.argv[2];
+	});
+
+	}
+
 
 	function usage(){
 		console.log("Usage: node liri.js <command>");
