@@ -22,6 +22,8 @@ files.readFile("random.txt", "utf8", function(error, data) {
     
     dataArr = process.argv[2];
 });
+
+
 	}
 // Using splice method to appropriately include all cases for
 //input length
@@ -87,23 +89,40 @@ files.readFile("random.txt", "utf8", function(error, data) {
 
 	function spotifyThis(songName){
 
-		var spotify = require('spotify');
+		 var spotify = require('spotify');
 
-		//var song = songName.length ? songName.join('+'): "Whats+my+age+again";
+        var song = songName.length ? songName.join('+'): "Whats+my+age+again";
 
-		//spotify('https://api.spotify.com/v1/search?q=' + song + '&type=artist');
- 
-		spotify.search({ type: 'track', query: 'whats my age again' }, function(err, data) {
-    if ( err ) {
-        console.log('Error occurred: ' + err);
-        return;
-    }
- 
-    console.log("Name:" + JSON.stringify(data.tracks.items[0].name, null, 2));
-    console.log("URL:" + JSON.stringify(data.tracks.items[0].uri, null, 2));
-    //console.log("Artists:" + JSON.stringify(data.tracks.items[1], null, 2));
-    //console.log("Song Link:" + JSON.stringify(data.tracks.items[8], null, 2));
-    //console.log("Song Name:" + JSON.stringify(data.tracks.items[10], null, 2));
+        spotify.search({ type: 'track', query: song }, function(err, data) {
+			if ( err ) {
+				console.log('Error occurred: ' + err);
+				return;
+			}
+
+			//console.log(JSON.stringify(data.tracks, null, 2);
+
+			var items = data.tracks.items;
+
+			var col1 = "";
+			var col2 = "";
+			var col3 = "";
+			var col4 = "";
+			var col5 = "";
+
+			console.log("Artist\t\tSong Name\tSpotify Link\tAlbum\tTrack Number");
+
+   			 for (var i=0; i<items.length; i++) {
+   			 	col1 = JSON.stringify(data.tracks.items[i].artists[0].name, null, 2);
+   			 	col2 = JSON.stringify(data.tracks.items[i].name, null, 2);
+				col3 = JSON.stringify(data.tracks.items[i].uri, null, 2);
+				col4 = JSON.stringify(data.tracks.items[i].album.name, null, 2);
+				col5 = JSON.stringify(data.tracks.items[i].track_number, null, 2);
+
+				console.log(col1 + "\t" + col2 + "\t"+ col3 + "\t"+ col4 + "\t"+ col5 + "\t");
+				//console.log("Artists:" + JSON.stringify(data.tracks.items[1], null, 2));
+				//console.log("Song Link:" + JSON.stringify(data.tracks.items[8], null, 2));
+				//console.log("Song Name:" + JSON.stringify(data.tracks.items[10], null, 2));	
+   			 }
 });
 	}
 
