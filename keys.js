@@ -7,6 +7,5 @@ exports.twitterKeys = {
   access_token_secret: '2AzVIdjtfDh2pRwqmvhKNN0E6uozwWU31bv8PrVinHSKT',
 }
 
-//'<>' for the keys if this doesn't work
 
-//https://apps.twitter.com/app/12560065    http://www.amreetactwitter.com
+//My Twitter app info https://apps.twitter.com/app/12560065    http://www.amreetactwitter.com

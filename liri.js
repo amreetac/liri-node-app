@@ -9,32 +9,33 @@ function liriBot() {
 // Using splice method to appropriately include all cases for
 //input length
 
- liri(process.argv[2]);
+ liri(process.argv[2], process.argv.splice(3, process.argv.length - 3));
 
-    function liri(args){
-	switch(process.argv[2]){
+    function liri(liriName, liriString){
+
+	switch(liriName){
 		case "my-tweets":
-			if (process.argv.length != 3) {
+			if (liriString.length > 0) {
 				usage();
 				break;
 			}
 			myTweets();
 			break;
 		case "spotify-this-song":
-			spotifyThis(process.argv.splice(3, process.argv.length - 3));
+			spotifyThis(liriString);
 			break;
 		case "movie-this":
-			movieThis(process.argv.splice(3, process.argv.length - 3));
+			movieThis(liriString);
 			break;
 		case "do-what-it-says":
-			if (process.argv.length != 3) {
-				usage();
+			if (liriString.length > 0) {
+				usage(liriName, liriString);
 				break;
 			}
 			doIt();
 			break;
 		default:
-			usage();
+			usage(liriName, liriString);
 	}
 }
 
@@ -74,8 +75,9 @@ function liriBot() {
 		 var spotify = require('spotify');
 
 		 var printf = require('printf');  //Note: Download the printf package!!
+		 // This was done to create a nicer format for spotify output.
 
-        var song = songName.length ? songName.join('+'): "Whats+my+age+again";
+        var song = songName.length ? songName: "Whats my age again";
 
         spotify.search({ type: 'track', query: song }, function(err, data) {
 			if ( err ) {
@@ -93,7 +95,7 @@ function liriBot() {
 			var col4 = "";
 			var col5 = "";
 
-			console.log("Artist\t\tSong Name\tSpotify Link\tAlbum\tTrack Number");
+			console.log("\tArtist\t\t\tSong Name\t\t\t\t\tSpotify Link\t\t\tAlbum\t\t\t\tTrack Number");
 
    			 for (var i=0; i<items.length; i++) {
    			 	col1 = JSON.stringify(data.tracks.items[i].artists[0].name, null, 2);
@@ -120,9 +122,8 @@ function liriBot() {
 
 		// Running a request to OMDB with Mr. Nobody as the default movie
 		// To get each word together in the movie name (since it is seperated)
-		// of the movie name is separated in the movieName array, it
-		// needs to be joined together with "+" between each word.
-		var movie = movieName.length ? movieName.join('+') : "Mr.+Nobody";
+		// it needs to be joined together with "+" between each word.
+		var movie = movieName.length ? movieName: "Mr. Nobody";
 
 		request('http://www.omdbapi.com/?t=' + movie + '&y=&plot=short&tomatoes=true&r=json', 
 			function (error, response, body) {
@@ -150,8 +151,6 @@ function liriBot() {
 
 
 	function doIt(){
-		// fs is an NPM package defined from above for reading and writing files 
-
 		// This block of code will read from the "movies.txt" file.
 		// It's important to include the "utf8" parameter or the code will provide stream data (garbage)
 		// The code will store the contents of the reading inside the variable "data" 
@@ -159,20 +158,23 @@ function liriBot() {
 
     
      //Then split it by commas (to make it more readable)
-    var dataArr = data.split(',');
+    var dataArr = data.split('\n');
 
-    for(var i = 0; i <dataArr.length; i++)
+    // This executes the command from the text file
+        	// There are issues with multiple APIs so the loop is done once for now
+    for(var i = 0; i <1; i++)
     {
-    	console.log(dataArr[i]);
+    	var args = dataArr[i].split(','); // split the line into an array of args
+        		console.log("============== " + args[0] + " " + args[1] + " ==============");
+        		liri(args[0], args[1]);
     }
     
-       // dataArr = process.argv[2];
 	});
 
 	}
 
 
-	function usage(){
+	function usage(liriName, liriString){
 		console.log("Usage: node liri.js <command>");
 		console.log("Where: command is one of the following:");
 		console.log("    my-tweets");
