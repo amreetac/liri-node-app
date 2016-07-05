@@ -182,6 +182,28 @@ function liriBot() {
 		console.log("    movie-this <movie name here>");
 		console.log("    do-what-it-says");
 	}
+
+/* In order to log the information into a file, we can use the Through2 package */
+
+var util = require('util');
+var fs = require('fs');
+
+// Use the 'a' flag to append to the file instead of overwrite it.
+var ws = fs.createWriteStream('./log.txt', {flags: 'a'});
+var through = require('through2');
+
+// Create through stream.
+var t = new through();
+
+// Pipe its data to both stdout and our file write stream.
+t.pipe(process.stdout);
+t.pipe(ws);
+
+// Monkey patch the console.log function to write to our through
+// stream instead of stdout like default.
+console.log = function () {
+  t.write(util.format.apply(this, arguments) + '\n');
+};
 }
 
 liriBot();
